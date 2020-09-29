@@ -13,10 +13,6 @@ class TaskList extends Component {
     }
 
     showTasks() {
-        console.log("filtered list", {
-            filtered: this.state.filteredTasks,
-            searchTerm: this.state.searchTerm,
-        });
         return this.state.filteredTasks.map((task, i) => {
             return (
                 <li key={i}>
@@ -42,6 +38,7 @@ class TaskList extends Component {
         const filteredList = this.state.tasks.filter((task) =>
             task.title.toLowerCase().includes(value.toLowerCase())
         );
+
         this.setState({ [name]: value, filteredTasks: filteredList });
     }
 
