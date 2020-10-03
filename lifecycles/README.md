@@ -1,5 +1,7 @@
 # Class notes
 
+> Official react doc: https://reactjs.org/docs/state-and-lifecycle.html
+
 ## Stages of React app
 
 1. **Mounting** - Initializing, birth of your component
