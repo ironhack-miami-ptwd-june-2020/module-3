@@ -18,14 +18,14 @@
 // option 1:
 
 function generateHashtag(str) {
-  if (string.trim() === '') return false;
+  if (str.trim() === '') return false;
 
   const camelCasedStr = str
     .split(' ')
     .map(word => word.slice(0, 1).toUpperCase() + word.slice(1))
     .join('');
 
-  const strWithHash = `#${camelCasedStr.trim()}`;
+  const strWithHash = `#${camelCasedStr}`;
 
   return strWithHash.length > 140 ? false : strWithHash;
 }
