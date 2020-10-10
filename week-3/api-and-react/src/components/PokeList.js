@@ -36,14 +36,16 @@ class PokeList extends Component {
 
     render() {
         return (
-            <div>
-                <h2>List of Pokemon</h2>
+            <div className="red-background">
+                <h2>LiSt Of PoKeMoN</h2>
                 <hr />
                 <div className="centerContent list-item-container">
                     {this.state.listOfPokemon ? (
                         this.displayPokemonList()
                     ) : (
-                        <h3>Loading ...</h3>
+                        <div className="details-page">
+                            <h3>Loading ...</h3>
+                        </div>
                     )}
                 </div>
             </div>

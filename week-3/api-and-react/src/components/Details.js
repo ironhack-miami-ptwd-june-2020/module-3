@@ -40,7 +40,7 @@ class Details extends Component {
             <div className="centerContent pokemonDetails">
                 <h2>{pokemon.name} Details</h2>
                 <br />
-                <div className=" centerContent row-display-display">
+                <div className=" centerContent row-display">
                     <img
                         src={`${pokemon.sprites.front_default}`}
                         alt={`${pokemon.name} sprite`}
@@ -53,7 +53,7 @@ class Details extends Component {
 
                 <h3>ID: {pokemon.id}</h3>
 
-                <div className=" centerContent row-display-display">
+                <div className=" centerContent row-display">
                     <ul className="centerContent">
                         <h3>Abilities</h3>
                         {pokemon.abilities.map((item, i) => {
@@ -74,7 +74,7 @@ class Details extends Component {
 
     render() {
         return (
-            <div>
+            <div className="red-background details-page">
                 {this.state.pokemon
                     ? this.displayPokemonDetails()
                     : this.loading()}

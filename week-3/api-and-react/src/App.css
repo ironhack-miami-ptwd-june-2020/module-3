@@ -38,7 +38,7 @@
 }
 
 body {
-    padding-top: 6vw;
+    padding-top: 5vw;
 }
 
 .centerContent {
@@ -48,8 +48,33 @@ body {
     flex-direction: column;
 }
 
+hr {
+    border-color: #ffde00;
+}
+
+h3,
+h2,
+li {
+    color: #ffde00;
+}
+
+.red-background {
+    background-color: #cc0000;
+    padding-top: 1vw;
+}
+
+.red-background h2 {
+    margin: 0;
+}
+
 .homePage {
     justify-content: space-around;
+    height: 49.7vw;
+    background-color: #cc0000;
+}
+
+.homePage img {
+    width: 50vw;
 }
 
 .navbar {
@@ -62,6 +87,7 @@ body {
     position: fixed;
     top: 0;
     width: 90vw;
+    background-color: #3b4cca;
 }
 
 .navbar div {
@@ -71,38 +97,54 @@ body {
     width: 10vw;
 }
 
+.navbar a {
+    color: #ffde00;
+    text-decoration: none;
+}
+
 .list-item-box {
     width: 10vw;
     height: 2.5vw;
     margin: 1vw 0;
 }
 
+.list-item-box a {
+    text-transform: capitalize;
+    color: #ffde00;
+    text-decoration: none;
+}
+
 .list-item-container {
     flex-flow: row wrap;
+}
+
+.details-page {
+    height: 49.7vw;
 }
 
 .pokemonDetails h2 {
     text-transform: capitalize;
 }
 
-.row-display-display {
+.row-display {
     width: 25vw;
     flex-direction: row;
     justify-content: space-between;
-}
-
-.row-display-display img {
-    width: 10vw;
-}
-
-.row-display-display ul {
     align-items: flex-start;
 }
 
-.row-display-display li {
+.row-display img {
+    width: 10vw;
+}
+
+.row-display ul {
+    align-items: flex-start;
+}
+
+.row-display li {
     list-style: none;
 }
 
-.row-display-display li::before {
+.row-display li::before {
     content: "- ";
 }
