@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
-        <div>
-            <Link to="/">Home</Link>
-            <Link to="poke-list">Poke-List</Link>
+        <div className="navbar">
+            <div>
+                <Link to="/">Home</Link>
+                <Link to="poke-list">Poke-List</Link>
+            </div>
+            <div></div>
+            <div></div>
         </div>
     );
 }
