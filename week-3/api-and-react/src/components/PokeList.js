@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 class PokeList extends Component {
     constructor() {
@@ -13,7 +14,7 @@ class PokeList extends Component {
         axios
             .get("https://pokeapi.co/api/v2/pokemon/?limit=1000")
             .then((pokemonFromApi) => {
-                console.log({ poke: pokemonFromApi.data.results });
+                // console.log({ poke: pokemonFromApi.data.results });
 
                 this.setState({ listOfPokemon: pokemonFromApi.data.results });
             })
@@ -22,9 +23,12 @@ class PokeList extends Component {
 
     displayPokemonList() {
         return this.state.listOfPokemon.map((pokemon, i) => {
+            // console.log({ id: Number(pokemon.url.split("/")[6]) });
             return (
                 <div key={i} className="list-item-box centerContent">
-                    <h3>{pokemon.name}</h3>
+                    <Link to={`/details/${Number(pokemon.url.split("/")[6])}`}>
+                        {pokemon.name}
+                    </Link>
                 </div>
             );
         });
