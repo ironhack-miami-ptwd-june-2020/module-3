@@ -6,7 +6,7 @@ function Navbar() {
         <div className="navbar">
             <div>
                 <Link to="/">Home</Link>
-                <Link to="poke-list">Poke-List</Link>
+                <Link to="/poke-list">Poke-List</Link>
             </div>
             <div></div>
             <div></div>

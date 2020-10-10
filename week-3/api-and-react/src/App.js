@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import PokeList from "./components/PokeList";
+import Details from "./components/Details";
 
 function App() {
     return (
@@ -13,6 +14,11 @@ function App() {
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/poke-list" component={PokeList} />
+                <Route
+                    exact
+                    path="/details/:pokeId"
+                    render={(props) => <Details {...props} />}
+                />
             </Switch>
         </div>
     );

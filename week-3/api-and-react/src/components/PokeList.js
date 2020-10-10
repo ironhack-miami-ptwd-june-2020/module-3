@@ -40,7 +40,11 @@ class PokeList extends Component {
                 <h2>List of Pokemon</h2>
                 <hr />
                 <div className="centerContent list-item-container">
-                    {this.state.listOfPokemon && this.displayPokemonList()}
+                    {this.state.listOfPokemon ? (
+                        this.displayPokemonList()
+                    ) : (
+                        <h3>Loading ...</h3>
+                    )}
                 </div>
             </div>
         );

@@ -80,3 +80,29 @@ body {
 .list-item-container {
     flex-flow: row wrap;
 }
+
+.pokemonDetails h2 {
+    text-transform: capitalize;
+}
+
+.row-display-display {
+    width: 25vw;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.row-display-display img {
+    width: 10vw;
+}
+
+.row-display-display ul {
+    align-items: flex-start;
+}
+
+.row-display-display li {
+    list-style: none;
+}
+
+.row-display-display li::before {
+    content: "- ";
+}
