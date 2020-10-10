@@ -41,6 +41,17 @@ body {
     padding-top: 6vw;
 }
 
+.centerContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.homePage {
+    justify-content: space-around;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -58,4 +69,14 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 10vw;
+}
+
+.list-item-box {
+    width: 10vw;
+    height: 2.5vw;
+    margin: 1vw 0;
+}
+
+.list-item-container {
+    flex-flow: row wrap;
 }
