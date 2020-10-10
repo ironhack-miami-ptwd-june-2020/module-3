@@ -37,7 +37,7 @@ class PokeList extends Component {
     render() {
         return (
             <div className="red-background">
-                <h2>LiSt Of PoKeMoN</h2>
+                <h2>LiSt Of PoKéMoN</h2>
                 <hr />
                 <div className="centerContent list-item-container">
                     {this.state.listOfPokemon ? (

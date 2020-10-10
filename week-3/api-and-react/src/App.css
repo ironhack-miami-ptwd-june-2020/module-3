@@ -58,6 +58,11 @@ li {
     color: #ffde00;
 }
 
+h2,
+h3 {
+    font-family: "PokemonHollowNormal";
+}
+
 .red-background {
     background-color: #cc0000;
     padding-top: 1vw;
