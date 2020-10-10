@@ -27,7 +27,7 @@ class Details extends Component {
     loading() {
         return (
             <div>
-                <h2>Pokemon Details</h2>
+                <h2>Pokemon DéTaIlS</h2>
                 <br />
                 <h3>Loading ...</h3>
             </div>
@@ -38,7 +38,7 @@ class Details extends Component {
         const { pokemon } = this.state;
         return (
             <div className="centerContent pokemonDetails">
-                <h2>{pokemon.name} Details</h2>
+                <h2>{pokemon.name} DéTaIlS</h2>
                 <br />
                 <div className=" centerContent row-display">
                     <img
