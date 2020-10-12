@@ -23,4 +23,14 @@ router.post("/create", (req, res, next) => {
         );
 });
 
+router.put("/update", (req, res, next) => {
+    Task.findByIdAndUpdate(req.body.taskId, req.body, { new: true })
+        .then((updatedTask) => {
+            res.status(200).json(updatedTask);
+        })
+        .catch((err) =>
+            res.status(400).json({ messagae: "Error while updating task" })
+        );
+});
+
 module.exports = router;
