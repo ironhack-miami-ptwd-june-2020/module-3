@@ -79,6 +79,6 @@ require("./passport")(app);
 
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
-app.use("/task", require("./routes/task-routes/task"));
+app.use("/task", require("./routes/task-routes/tasks"));
 
 module.exports = app;
