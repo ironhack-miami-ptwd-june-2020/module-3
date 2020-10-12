@@ -29,7 +29,19 @@ router.put("/update", (req, res, next) => {
             res.status(200).json(updatedTask);
         })
         .catch((err) =>
-            res.status(400).json({ messagae: "Error while updating task" })
+            res.status(400).json({ message: "Error while updating task" })
+        );
+});
+
+router.delete("/delete", (req, res, next) => {
+    Task.findByIdAndDelete(req.body.taskId)
+        .then(() => {
+            res.status(200).json({ message: "Deleted task successfully" });
+        })
+        .catch((err) =>
+            res
+                .status(400)
+                .json({ message: "Error while trying to delete task" })
         );
 });
 
