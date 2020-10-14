@@ -14,7 +14,7 @@ const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
 
 mongoose
-    .connect("mongodb://localhost/tasks-api", { useNewUrlParser: true })
+    .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
     .then((x) => {
         console.log(
             `Connected to Mongo! Database name: "${x.connections[0].name}"`
@@ -78,7 +78,7 @@ app.use(flash());
 require("./passport")(app);
 
 app.use("/", require("./routes/index"));
-app.use("/auth", require("./routes/auth"));
-app.use("/task", require("./routes/task-routes/tasks"));
+app.use("/api", require("./routes/auth"));
+app.use("/api", require("./routes/task-routes/tasks"));
 
 module.exports = app;
