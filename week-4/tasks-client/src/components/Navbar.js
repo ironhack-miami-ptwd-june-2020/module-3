@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
-        <div>
+        <nav className="space-between">
             <div>
                 <Link to="/">Home</Link>
+                <Link to="/task-list">Tasks</Link>
             </div>
             <div></div>
-        </div>
+        </nav>
     );
 }
 

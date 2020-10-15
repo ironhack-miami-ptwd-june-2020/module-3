@@ -8,7 +8,7 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-
+const cors = require("cors");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
@@ -36,6 +36,13 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(
+    cors({
+        credentials: true,
+        origin: ["http://localhost:3000", "blah.reactappdomain.com"],
+    })
+);
 
 // Express View engine setup
 
@@ -78,7 +85,7 @@ app.use(flash());
 require("./passport")(app);
 
 app.use("/", require("./routes/index"));
-app.use("/api", require("./routes/auth"));
-app.use("/api", require("./routes/task-routes/tasks"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/task", require("./routes/task-routes/tasks"));
 
 module.exports = app;
