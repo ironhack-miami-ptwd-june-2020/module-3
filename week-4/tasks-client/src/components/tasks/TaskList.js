@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Loading from "../Loading";
+import { Link } from "react-router-dom";
 
 class TaskList extends Component {
     constructor() {
@@ -11,6 +12,10 @@ class TaskList extends Component {
     }
 
     componentDidMount() {
+        this.getAllTasks();
+    }
+
+    getAllTasks() {
         axios
             .get(`${process.env.REACT_APP_API_DOMAIN}/task/all-tasks`, {
                 withCredentials: true,
@@ -21,8 +26,24 @@ class TaskList extends Component {
             .catch((err) => console.log({ err }));
     }
 
+    deleteTask(taskId) {
+        axios
+            .delete(
+                `${process.env.REACT_APP_API_DOMAIN}/task/delete/${taskId}`,
+                {
+                    withCredentials: true,
+                }
+            )
+            .then(() => {
+                console.log("task deleted");
+                this.getAllTasks();
+            })
+            .catch((err) => console.log({ err }));
+    }
+
     displayTasks() {
         return this.state.tasks.map((task, i) => {
+            // console.log({ task });
             return (
                 <div className="task-box center-content" key={i}>
                     <div className="space-between">
@@ -35,11 +56,19 @@ class TaskList extends Component {
                     </div>
 
                     <div className="space-between">
-                        <h6>
-                            {task.isCompleted
-                                ? "Task Complete"
-                                : "Task Not Complete"}
-                        </h6>
+                        {task.isComplete ? (
+                            <h6>Task Complete</h6>
+                        ) : (
+                            <h6>Task Not Complete</h6>
+                        )}
+
+                        <div>
+                            <Link to={`/update/${task._id}`}> Edit </Link>
+                            <button onClick={() => this.deleteTask(task._id)}>
+                                Delete
+                            </button>
+                        </div>
+
                         <h6>Complete By: {task.completionDate}</h6>
                     </div>
                 </div>
@@ -49,8 +78,15 @@ class TaskList extends Component {
 
     render() {
         return (
-            <div className="class-container general-padding">
-                {this.state.tasks ? this.displayTasks() : <Loading />}
+            <div className="general-padding">
+                <h2>All Tasks</h2>
+                <hr />
+                <Link to="/task/create"> Create Task </Link>
+                <br />
+                <br />
+                <div className="task-container">
+                    {this.state.tasks ? this.displayTasks() : <Loading />}
+                </div>
             </div>
         );
     }

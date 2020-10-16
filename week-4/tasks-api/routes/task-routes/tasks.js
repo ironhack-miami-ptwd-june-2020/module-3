@@ -23,6 +23,16 @@ router.get("/all-tasks", (req, res, next) => {
         );
 });
 
+router.get("/details/:taskId", (req, res, next) => {
+    Task.findById(req.params.taskId)
+        .then((taskFromDb) => {
+            res.status(200).json(taskFromDb);
+        })
+        .catch((err) =>
+            res.status(400).json({ message: "Error finding task" })
+        );
+});
+
 router.put("/update", (req, res, next) => {
     Task.findByIdAndUpdate(req.body.taskId, req.body, { new: true })
         .then((updatedTask) => {
@@ -33,8 +43,8 @@ router.put("/update", (req, res, next) => {
         );
 });
 
-router.delete("/delete", (req, res, next) => {
-    Task.findByIdAndDelete(req.body.taskId)
+router.delete("/delete/:taskId", (req, res, next) => {
+    Task.findByIdAndDelete(req.params.taskId)
         .then(() => {
             res.status(200).json({ message: "Deleted task successfully" });
         })

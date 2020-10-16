@@ -79,13 +79,13 @@ nav a {
 
 .task-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-flow: row wrap;
 }
 
 .task-box {
-    width: 30vw;
+    width: 30%;
     border: 1px solid black;
 }
 
