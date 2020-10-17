@@ -1,16 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AuthService from "./services/AuthService";
 
-function Navbar() {
-    return (
-        <nav className="space-between">
+class Navbar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.service = new AuthService();
+    }
+
+    logout = () => {
+        this.service
+            .logout()
+            .then(() => {
+                this.props.history.push("/");
+            })
+            .catch((err) => console.log({ err }));
+    };
+
+    displayUserOptions() {
+        return this.props.currentUser ? (
             <div>
-                <Link to="/">Home</Link>
-                <Link to="/task-list">Tasks</Link>
+                <img
+                    src={`${this.props.currentUser.profileImage}`}
+                    alt="profile image"
+                />
+                <h4>Hello {this.props.currentUser.username}</h4>
+                <button onClick={this.logout}>Logout</button>
             </div>
-            <div></div>
-        </nav>
-    );
+        ) : (
+            <div>
+                <Link to="/signup">Sing Up</Link>
+                <Link to="login">Log In</Link>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <nav className="space-between">
+                <div>
+                    <Link to="/">Home</Link>
+                    <Link to="/task-list">Tasks</Link>
+                </div>
+                <div>{this.displayUserOptions()}</div>
+            </nav>
+        );
+    }
 }
 
 export default Navbar;

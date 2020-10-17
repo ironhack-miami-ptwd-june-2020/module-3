@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require("../models/User");
 
 // Bcrypt to encrypt passwords
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
 
 // Don't need get routes to load pages, that is handled in react (Front End);
@@ -12,15 +12,41 @@ const bcryptSalt = 10;
 //   res.render("auth/login", { "message": req.flash("error") });
 // });
 
-router.post(
-    "/login",
-    passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/auth/login",
-        failureFlash: true,
-        passReqToCallback: true,
-    })
-);
+// router.post(
+//     "/login",
+//     passport.authenticate("local", {
+//         successRedirect: "/",
+//         failureRedirect: "/auth/login",
+//         failureFlash: true,
+//         passReqToCallback: true,
+//     })
+// );
+
+// when using passport for login as an api, you have to change the structure of the login method in order to be able to pass user information to the client.
+router.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, failureDetails) => {
+        if (err) {
+            res.status(500).json({
+                message: "Something went wrong with database query.",
+            });
+        }
+
+        if (!user) {
+            res.status(401).json(failureDetails);
+        }
+
+        req.login(user, (err) => {
+            if (err) {
+                return res
+                    .status(500)
+                    .json({ message: "Something went wrong with login!" });
+            }
+
+            user.password = undefined;
+            res.status(200).json({ message: "Login Successful!", user });
+        });
+    })(req, res, next);
+});
 
 // Don't need get routes to load pages, that is handled in react (Front End);
 // router.get("/signup", (req, res, next) => {
@@ -30,18 +56,22 @@ router.post(
 router.post("/signup", (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    if (username === "" || password === "") {
+    const email = req.body.email;
+
+    if (email === "" || password === "" || username === "") {
         // res.render("auth/signup", {
         //     message: "Indicate username and password",
         // });
-        res.status(400).json({ message: "Indicate username and password" });
+        res.status(400).json({
+            message: "Indicate username, email and password",
+        });
         return;
     }
 
-    User.findOne({ username }, "username", (err, user) => {
+    User.findOne({ email }, "email", (err, user) => {
         if (user !== null) {
             // res.render("auth/signup", {
-            //     message: "The username already exists",
+            //     message: "The email already exists",
             // });
             res.status(400).json({ message: "The username already exists" });
             return;
@@ -53,19 +83,46 @@ router.post("/signup", (req, res, next) => {
         const newUser = new User({
             username,
             password: hashPass,
+            email,
         });
 
-        newUser
-            .save()
-            .then(() => {
-                // res.redirect("/");
-                req.login();
-                res.status(200).json(newUser);
-            })
-            .catch((err) => {
-                // res.render("auth/signup", { message: "Something went wrong" });
-                res.status(400).json({ message: "Something went wrong" });
+        // don't use this method to log in user when using express as an api. Instead use callback method shown below.
+        // newUser
+        //     .save()
+        //     .then(() => {
+        //         // res.redirect("/");
+        //         req.login();
+        //         res.status(200).json(newUser);
+        //     })
+        //     .catch((err) => {
+        //         // res.render("auth/signup", { message: "Something went wrong" });
+        //         res.status(400).json({ message: "Something went wrong" });
+        //     });
+
+        newUser.save((err) => {
+            if (err) {
+                res.status(400).json({
+                    message: "Saving user to database error",
+                });
+                return;
+            }
+
+            req.login(newUser, (err) => {
+                if (err) {
+                    res.status(500).json({
+                        message: "Login after signup error",
+                    });
+                    return;
+                }
+                user.password = undefined;
+                res.status(200).json(
+                    {
+                        message: "Successful login after signup",
+                    },
+                    req.user
+                );
             });
+        });
     });
 });
 
@@ -73,6 +130,17 @@ router.delete("/logout", (req, res) => {
     req.logout();
     // res.redirect("/");
     res.status(200).json({ message: "Logged Out" });
+});
+
+router.get("/isLoggedIn", (req, res) => {
+    if (req.user) {
+        console.log({ user: req.user });
+        req.user.password = undefined;
+        res.status(200).json(req.user);
+        return;
+    }
+
+    res.status(401).json({ message: "Unauthorized Access!" });
 });
 
 module.exports = router;

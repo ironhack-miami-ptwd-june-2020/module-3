@@ -4,7 +4,15 @@ const Task = require("../../models/Task.js");
 
 router.post("/create", (req, res, next) => {
     console.log({ body: req.body });
-    Task.create(req.body)
+    if (!req.user) {
+        res.status(401).json({ message: "User not logged in" });
+        return;
+    }
+    const newTask = {
+        ...req.body,
+        author: req.user._id,
+    };
+    Task.create(newTask)
         .then((createdTask) => {
             res.status(200).json(createdTask);
         })
@@ -15,6 +23,7 @@ router.post("/create", (req, res, next) => {
 
 router.get("/all-tasks", (req, res, next) => {
     Task.find()
+        .populate("author")
         .then((allTasks) => {
             res.status(200).json(allTasks);
         })
@@ -25,6 +34,7 @@ router.get("/all-tasks", (req, res, next) => {
 
 router.get("/details/:taskId", (req, res, next) => {
     Task.findById(req.params.taskId)
+        .populate("author")
         .then((taskFromDb) => {
             res.status(200).json(taskFromDb);
         })
