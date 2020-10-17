@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User");
+const routeGuard = require("../config/route-guard.config");
 
 // Bcrypt to encrypt passwords
 const bcrypt = require("bcryptjs");
@@ -30,13 +31,11 @@ router.post("/login", (req, res, next) => {
             res.status(500).json({
                 message: "Something went wrong with database query.",
             });
-            return;
         }
 
         if (!user) {
             console.log({ noUserFound: failureDetails });
             res.status(401).json(failureDetails);
-            return;
         }
 
         req.login(user, (err) => {
@@ -131,7 +130,7 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
-router.delete("/logout", (req, res) => {
+router.delete("/logout", routeGuard, (req, res) => {
     req.logout();
     // res.redirect("/");
     res.status(200).json({ message: "Logged Out" });
