@@ -76,9 +76,16 @@ app.locals.title = "Express - Generated with IronGenerator";
 app.use(
     session({
         secret: "irongenerator",
-        resave: true,
+        // resave: true,
+        // saveUninitialized: true,
+        // store: new MongoStore({ mongooseConnection: mongoose.connection }),
+        resave: false,
         saveUninitialized: true,
-        store: new MongoStore({ mongooseConnection: mongoose.connection }),
+        cookie: { maxAge: 86400 }, // 1 day
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+            ttl: 60 * 60 * 24, // 1 day
+        }),
     })
 );
 app.use(flash());

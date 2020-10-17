@@ -19,18 +19,21 @@ class Signup extends Component {
         this.setState({ [name]: value });
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         this.service
-            .signup(this.state)
+            .signup(this.state.email, this.state.password, this.state.username)
             .then((response) => {
                 if (response.message) {
                     this.setState({ message: response.message });
                 } else {
+                    this.props.getCurrentUser();
                     this.props.history.push("/");
                 }
             })
-            .catch((err) => console.log({ err }));
-    }
+            .catch((err) => {
+                this.setState({ message: err.response.data.message });
+            });
+    };
 
     render() {
         return (

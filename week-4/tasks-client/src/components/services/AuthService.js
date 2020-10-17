@@ -7,13 +7,12 @@ class AuthService {
             withCredentials: true,
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json",
-                // Authorization: "Bearer <token_here>",
+                Accept: "application/json, text/plain, */*",
             },
         });
 
         this.service = service;
-        console.log({ service, domain: process.env.REACT_APP_API_DOMAIN });
+        // console.log({ service, domain: process.env.REACT_APP_API_DOMAIN });
     }
 
     signup = (email, password, username) => {
@@ -32,11 +31,16 @@ class AuthService {
         return this.service.delete(`/logout`).then((response) => response.data);
     };
 
-    currentUser = () => {
+    currentUser = async () => {
         console.log("checking for current user");
-        return this.service
-            .get("/isLoggedIn")
-            .then((response) => response.data);
+        return this.service.get("/isLoggedIn").then((response) => {
+            console.log({ response: response.data });
+            return response.data;
+        });
+
+        // const result = await this.service.get("/isLoggedIn");
+        // console.log({ result });
+        // return result;
     };
 }
 

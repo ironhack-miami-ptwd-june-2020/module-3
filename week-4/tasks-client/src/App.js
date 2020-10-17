@@ -10,7 +10,7 @@ import UpdateTask from "./components/tasks/UpdateTask";
 import CreateTask from "./components/tasks/CreateTask";
 import Signup from "./components/auth/Signup";
 import Login from "./components/auth/Login";
-import axios from "axios";
+// import axios from "axios";
 
 class App extends React.Component {
     constructor() {
@@ -23,23 +23,22 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log({
-            service: this.service,
-            env: process.env.REACT_APP_API_DOMAIN,
-        });
-        this.service.currentUser().then((theCurrentUser) => {
-            console.log({ theCurrentUser });
-            this.setState({ currentUser: theCurrentUser || null });
-        });
-        // axios
-        //     .get(`${process.env.REACT_APP_API_DOMAIN}/auth/isLoggedIn`, {
-        //         withCredentials: true,
-        //     })
-        //     .then((theCurrentUser) => {
-        //         console.log({ theCurrentUser });
-        //         this.setState({ currentUser: theCurrentUser || null });
-        //     });
+        this.getCurrentUser();
     }
+
+    getCurrentUser = () => {
+        console.log("getting user info!");
+        this.service
+            .currentUser()
+            .then((theCurrentUser) => {
+                console.log({ theCurrentUser });
+                this.setState({ currentUser: theCurrentUser });
+            })
+            .catch((err) => {
+                console.log({ err });
+                this.setState({ currentUser: null });
+            });
+    };
 
     render() {
         return (
@@ -47,7 +46,16 @@ class App extends React.Component {
                 <Navbar currentUser={this.state.currentUser} />
 
                 <Switch>
-                    <Route exact path="/" component={Home} />
+                    <Route
+                        exact
+                        path="/"
+                        render={(props) => (
+                            <Home
+                                {...props}
+                                getCurrentUser={this.getCurrentUser}
+                            />
+                        )}
+                    />
                     <Route exact path="/task-list" component={TaskList} />
                     <Route exact path="/task/create" component={CreateTask} />
                     <Route
@@ -62,7 +70,10 @@ class App extends React.Component {
                             this.state.currentUser ? (
                                 <Redirect to="/" />
                             ) : (
-                                <Signup />
+                                <Signup
+                                    {...props}
+                                    getCurrentUser={this.getCurrentUser}
+                                />
                             )
                         }
                     />
@@ -73,7 +84,10 @@ class App extends React.Component {
                             this.state.currentUser ? (
                                 <Redirect to="/" />
                             ) : (
-                                <Login />
+                                <Login
+                                    {...props}
+                                    getCurrentUser={this.getCurrentUser}
+                                />
                             )
                         }
                     />

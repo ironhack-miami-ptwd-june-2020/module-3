@@ -20,15 +20,20 @@ class Login extends Component {
 
     handleSubmit = () => {
         this.service
-            .login(this.state)
+            .login(this.state.email, this.state.password)
             .then((response) => {
+                console.log({ response, props: this.props });
                 if (response.message) {
                     this.setState({ message: response.message });
                 } else {
+                    this.props.getCurrentUser();
                     this.props.history.push("/");
                 }
             })
-            .catch((err) => console.log({ err }));
+            .catch((err) => {
+                console.log({ err });
+                this.setState({ message: err.response.data.message });
+            });
     };
 
     render() {
@@ -58,7 +63,7 @@ class Login extends Component {
                     </label>
                 </div>
                 <br />
-                <button onClick={this.handleSubmit}>Sign Up</button>
+                <button onClick={this.handleSubmit}>Log In</button>
                 <br />
                 <br />
                 {this.state.message && <h3>{this.state.message}</h3>}

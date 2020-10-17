@@ -24,26 +24,31 @@ const bcryptSalt = 10;
 
 // when using passport for login as an api, you have to change the structure of the login method in order to be able to pass user information to the client.
 router.post("/login", (req, res, next) => {
+    console.log({ loginBody: req.body });
     passport.authenticate("local", (err, user, failureDetails) => {
         if (err) {
             res.status(500).json({
                 message: "Something went wrong with database query.",
             });
+            return;
         }
 
         if (!user) {
+            console.log({ noUserFound: failureDetails });
             res.status(401).json(failureDetails);
+            return;
         }
 
         req.login(user, (err) => {
+            console.log({ user, err });
             if (err) {
                 return res
                     .status(500)
                     .json({ message: "Something went wrong with login!" });
             }
-
+            console.log({ reqUser: req.user });
             user.password = undefined;
-            res.status(200).json({ message: "Login Successful!", user });
+            res.status(200).json(user);
         });
     })(req, res, next);
 });
@@ -133,6 +138,7 @@ router.delete("/logout", (req, res) => {
 });
 
 router.get("/isLoggedIn", (req, res) => {
+    console.log({ checkingForUser: req.user });
     if (req.user) {
         console.log({ user: req.user });
         req.user.password = undefined;

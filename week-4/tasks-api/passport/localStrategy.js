@@ -33,6 +33,7 @@ passport.use(
             usernameField: "email",
         },
         (email, password, next) => {
+            console.log({ email, password });
             User.findOne({ email })
                 .then((userFromDb) => {
                     if (!userFromDb) {

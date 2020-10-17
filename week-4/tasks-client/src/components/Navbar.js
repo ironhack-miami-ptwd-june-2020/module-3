@@ -6,6 +6,7 @@ class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.service = new AuthService();
+        console.log({ propsInNav: this.props });
     }
 
     logout = () => {
@@ -22,7 +23,7 @@ class Navbar extends React.Component {
             <div>
                 <img
                     src={`${this.props.currentUser.profileImage}`}
-                    alt="profile image"
+                    alt="profile icon"
                 />
                 <h4>Hello {this.props.currentUser.username}</h4>
                 <button onClick={this.logout}>Logout</button>
