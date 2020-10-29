@@ -4,7 +4,6 @@ import AUTH_SERVICE from '../../../services/AuthService';
 
 export default class Signup extends React.Component {
   state = {
-    username: '',
     email: '',
     password: '',
     message: null
@@ -18,9 +17,9 @@ export default class Signup extends React.Component {
   handleFormSubmission = event => {
     event.preventDefault();
 
-    const { username, email, password } = this.state;
+    const { email, password } = this.state;
 
-    AUTH_SERVICE.signup({ username, email, password })
+    AUTH_SERVICE.login({ email, password })
       .then(responseFromServer => {
         const { user } = responseFromServer.data;
 
@@ -39,16 +38,6 @@ export default class Signup extends React.Component {
       <>
         <section>
           <form onSubmit={this.handleFormSubmission}>
-            <label>
-              Username:
-              <input
-                name='username'
-                type='text'
-                placeholder='ana'
-                value={this.state.username}
-                onChange={this.handleInputChange}
-              />
-            </label>
             <label>
               Email:
               <input
@@ -69,7 +58,7 @@ export default class Signup extends React.Component {
                 onChange={this.handleInputChange}
               />
             </label>
-            <button> Signup </button>
+            <button> Login </button>
           </form>
           {this.state.message && <div> {this.state.message} </div>}
         </section>

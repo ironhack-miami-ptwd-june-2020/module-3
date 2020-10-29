@@ -11,7 +11,9 @@ const AUTH_SERVICE = {
   signup(userData) {
     return service.post('/api/signup', userData);
   },
-  login() {},
+  login(userData) {
+    return service.post('/api/login', userData);
+  },
   logout() {
     return service.post('/api/logout', {});
   },
