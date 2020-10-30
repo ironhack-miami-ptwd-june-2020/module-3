@@ -2,7 +2,7 @@ import React from 'react';
 
 import AUTH_SERVICE from '../../../services/AuthService';
 
-export default class Signup extends React.Component {
+export default class Login extends React.Component {
   state = {
     email: '',
     password: '',
