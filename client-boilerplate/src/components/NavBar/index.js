@@ -10,6 +10,7 @@ const NavBar = props => {
       .then(() => props.onUserChange(null))
       .catch(err => console.log(err));
   };
+
   return (
     <nav>
       <Link to='/'>
@@ -21,6 +22,7 @@ const NavBar = props => {
           <span>{props.currentUser.username}</span>
           <Link to='/profile'> Profile </Link>
           <Link to='/authors/create'> Create Author </Link>
+          <Link to='/books/create'> Create Book </Link>
           <button onClick={logoutAndLiftUserState}> Logout </button>
         </>
       )) || (

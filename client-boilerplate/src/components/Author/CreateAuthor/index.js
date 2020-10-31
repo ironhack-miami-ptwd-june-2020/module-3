@@ -17,6 +17,13 @@ export default class CreateAuthor extends React.Component {
     this.setState({ [name]: value });
   };
 
+  // ES6 way - the same as above:
+  // handleInputChange = ({ target: { name, value } }) => {
+  //   this.setState({
+  //     [name]: value
+  //   });
+  // };
+
   handleFormSubmission = event => {
     event.preventDefault();
 
@@ -24,7 +31,6 @@ export default class CreateAuthor extends React.Component {
 
     AUTHOR_SERVICE.createAuthor({ firstName, lastName, nationality, birthday, pictureUrl })
       .then(responseFromServer => {
-        // console.log('res from server in author:', responseFromServer);
         const { author } = responseFromServer.data;
 
         this.props.onAuthorsChange(author);
@@ -42,6 +48,8 @@ export default class CreateAuthor extends React.Component {
     return (
       <>
         <section>
+          <h2> Create new Author </h2>
+
           <form onSubmit={this.handleFormSubmission}>
             <label>
               First Name
@@ -75,6 +83,7 @@ export default class CreateAuthor extends React.Component {
                 onChange={this.handleInputChange}
               />
             </label>
+
             <label>
               Birthday
               <input
@@ -85,6 +94,7 @@ export default class CreateAuthor extends React.Component {
                 onChange={this.handleInputChange}
               />
             </label>
+
             <label>
               Picture Url
               <input
@@ -95,8 +105,10 @@ export default class CreateAuthor extends React.Component {
                 onChange={this.handleInputChange}
               />
             </label>
+
             <button> Create Author </button>
           </form>
+
           {message && <div>{message}</div>}
         </section>
       </>

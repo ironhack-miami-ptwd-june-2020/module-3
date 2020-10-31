@@ -14,6 +14,13 @@ export default class Login extends React.Component {
     this.setState({ [name]: value });
   };
 
+  // ES6 destructuring - the same as above:
+  // handleInputChange = ({ target: { name, value } }) => {
+  //   this.setState({
+  //     [name]: value
+  //   });
+  // };
+
   handleFormSubmission = event => {
     event.preventDefault();
 
@@ -23,7 +30,10 @@ export default class Login extends React.Component {
       .then(responseFromServer => {
         const { user } = responseFromServer.data;
 
+        // Lift the user object to the App.js
         this.props.onUserChange(user);
+
+        // Redirect user to home page after successful sign up
         this.props.history.push('/');
       })
       .catch(err => {
@@ -37,6 +47,8 @@ export default class Login extends React.Component {
     return (
       <>
         <section>
+          <h2> Login </h2>
+
           <form onSubmit={this.handleFormSubmission}>
             <label>
               Email:
@@ -48,6 +60,7 @@ export default class Login extends React.Component {
                 onChange={this.handleInputChange}
               />
             </label>
+
             <label>
               Password:
               <input
@@ -58,8 +71,11 @@ export default class Login extends React.Component {
                 onChange={this.handleInputChange}
               />
             </label>
+
             <button> Login </button>
           </form>
+
+          {/* if the message is not NULL then show the message */}
           {this.state.message && <div> {this.state.message} </div>}
         </section>
       </>

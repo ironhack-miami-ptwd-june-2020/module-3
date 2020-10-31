@@ -15,7 +15,7 @@ const Book = require('../models/Book.model');
 
 // <form action="/books" method="POST">
 router.post('/api/books', (req, res, next) => {
-  // console.log(req.body);
+  console.log(req.body);
   Book.create(req.body)
     .then(bookDoc => res.status(200).json({ book: bookDoc }))
     .catch(err => next(err));
